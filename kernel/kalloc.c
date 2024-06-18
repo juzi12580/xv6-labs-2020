@@ -62,6 +62,12 @@ kfree(void *pa)
   release(&kmem.lock);
 }
 
+//获取空闲内存量函数
+uint64      
+count_free_mem(void){
+
+}
+
 // Allocate one 4096-byte page of physical memory.
 // Returns a pointer that the kernel can use.
 // Returns 0 if the memory cannot be allocated.
