@@ -62,12 +62,6 @@ kfree(void *pa)
   release(&kmem.lock);
 }
 
-//获取空闲内存量函数
-uint64      
-count_free_mem(void){
-
-}
-
 // Allocate one 4096-byte page of physical memory.
 // Returns a pointer that the kernel can use.
 // Returns 0 if the memory cannot be allocated.
@@ -85,4 +79,19 @@ kalloc(void)
   if(r)
     memset((char*)r, 5, PGSIZE); // fill with junk
   return (void*)r;
+}
+
+//获取空闲内存量函数
+uint64      
+count_free_mem(void){
+  uint64 freemem = 0;
+  struct run *r;
+  acquire(&kmem.lock);
+  r = kmem.freelist;
+  while(r){
+    freemem += PGSIZE;
+    r = r->next;
+  }
+  release(&kmem.lock);
+  return freemem;
 }

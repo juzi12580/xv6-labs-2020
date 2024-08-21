@@ -88,7 +88,7 @@ walk(pagetable_t pagetable, uint64 va, int alloc)
   return &pagetable[PX(0, va)];
 }
 
-// Look up a virtual address, return the physical address,
+// Look up a virtual address, return the physical address,查找虚拟地址对应的物理地址
 // or 0 if not mapped.
 // Can only be used to look up user pages.
 uint64
@@ -398,7 +398,7 @@ copyin(pagetable_t pagetable, char *dst, uint64 srcva, uint64 len)
   return 0;
 }
 
-// Copy a null-terminated string from user to kernel.
+// Copy a null-terminated string from user to kernel.从用户页表页中的虚拟地址srcva复制max字节到dst中
 // Copy bytes to dst from virtual address srcva in a given page table,
 // until a '\0', or max.
 // Return 0 on success, -1 on error.

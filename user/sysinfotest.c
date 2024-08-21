@@ -83,7 +83,7 @@ testcall() {
     printf("FAIL: sysinfo failed\n");
     exit(1);
   }
-
+//不能访问超过39位的地址
   if (sysinfo((struct sysinfo *) 0xeaeb0b5b00002f5e) !=  0xffffffffffffffff) {
     printf("FAIL: sysinfo succeeded with bad argument\n");
     exit(1);

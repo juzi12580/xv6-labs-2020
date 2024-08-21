@@ -53,7 +53,7 @@ argraw(int n)
   return -1;
 }
 
-// Fetch the nth 32-bit system call argument.
+// Fetch the nth 32-bit system call argument.获取系统调用参数，通过argraw.
 int
 argint(int n, int *ip)
 {
@@ -107,6 +107,7 @@ extern uint64 sys_uptime(void);
 extern uint64 sys_trace(void);
 extern uint64 sys_sysinfo(void);
 
+//函数指针表，通过数字索引，指向对应的函数进行执行，这是C语言的一个用法，在C++中已经不用了
 static uint64 (*syscalls[])(void) = {
 [SYS_fork]    sys_fork,
 [SYS_exit]    sys_exit,
@@ -133,6 +134,7 @@ static uint64 (*syscalls[])(void) = {
 [SYS_sysinfo] sys_sysinfo,
 };
 
+//定义一个数组，用于打印系统调用名字
 const char *syscall_name[] = {
   [SYS_fork]    "fork",
   [SYS_exit]    "exit",
@@ -165,10 +167,10 @@ syscall(void)
   int num;
   struct proc *p = myproc();
 
-  num = p->trapframe->a7;
+  num = p->trapframe->a7;//获取从a7寄存器中的系统调用号并索引对应的系统调用。a0-a1一般为参数返回值
   if(num > 0 && num < NELEM(syscalls) && syscalls[num]) {
     p->trapframe->a0 = syscalls[num]();
-
+    //得到系统调用号，通过num打印对应的系统调用
     if((p->syscall_trace >> num) & 1) {
       printf("%d: syscall %s -> %d\n",p->pid, syscall_name[num], p->trapframe->a0);
     }

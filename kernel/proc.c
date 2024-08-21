@@ -304,6 +304,20 @@ fork(void)
   return pid;
 }
 
+//获取进程数
+uint64
+count_proc_num(void)
+{
+    uint64 num = 0;
+    
+    for(struct proc *p = proc; p < &proc[NPROC]; p++){
+        if(p->state != UNUSED){
+          num++;
+      }
+    } 
+    return num;
+}
+
 // Pass p's abandoned children to init.
 // Caller must hold p->lock.
 void
